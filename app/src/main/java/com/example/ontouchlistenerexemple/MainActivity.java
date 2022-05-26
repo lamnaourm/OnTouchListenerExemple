@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView i;
     int[] images= {R.drawable.img1,R.drawable.img2,R.drawable.img3,R.drawable.img4};
     int pos = 0;
-    float dx;
+    float dx, dy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,25 +27,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        dx = motionEvent.getX();
+                        dx = motionEvent.getX() - i.getX();
+                        dy = motionEvent.getY() - i.getY();
                         break;
-                    case MotionEvent.ACTION_UP:
-                        float ux = motionEvent.getX();
-
-                        if(dx > ux)
-                            pos++;
-                        else if(dx<ux)
-                            pos--;
-
-                        if(pos == -1)
-                            pos = images.length-1;
-                        else if(pos == images.length)
-                            pos = 0;
-
-                        i.setImageResource(images[pos]);
-
-
-                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        i.setX(motionEvent.getX()-dx);
+                        i.setY(motionEvent.getY()-dy);
                 }
                 return true;
             }
